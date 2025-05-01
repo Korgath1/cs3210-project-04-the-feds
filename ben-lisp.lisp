@@ -35,11 +35,11 @@
         ;; Only if it's not already in set-2
         (T (LET ((first-elem (CAR set-1))
                  (rest-union (set-union (CDR set-1) set-2)))
-           ;; If first element is already in set-2, just return the union of the rest
-           (IF (set-member set-2 first-elem)
-               rest-union
-               ;; Otherwise, add it to the result
-               (CONS first-elem rest-union))))))
+                ;; If first element is already in set-2, just return the union of the rest
+                (IF (set-member set-2 first-elem)
+                    rest-union
+                    ;; Otherwise, add it to the result
+                    (CONS first-elem rest-union))))))
 
 ;; Test cases
 (FORMAT T "Test Union 1: (set-union '(1 2) '(2 4)) => ~a~%" (set-union '(1 2) '(2 4)))
@@ -48,22 +48,49 @@
 (FORMAT T "Test Union 4: (set-union '(1 2 3) '()) => ~a~%" (set-union '(1 2 3) '()))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Problem 3: Return the intersection of two sets
-;; Return the intersection of set-1 and set-2.
 
-;; The result should contain no duplicates.
-
-;; Assume set-1 contains no duplicates and set-2 contains no duplicates.
-
-;; Examples:
-
-;;   (set-intersection '(1 2) '(2 4)) => '(2)
+;; Local variables:
+;; first-elem: the first element of set-1
+;; rest-inter: the intersection recursion call 
 
 (defun set-intersection (set-1 set-2)
 
-  ;;Your implementation go here
-  (set-member set-1 set-2)
+  ;;  base case check for empty set
+  (COND ((NULL set-1) NIL) ;; If set-1 is empty, intersection is empty
+        ((NULL set-2) NIL) ;; If set-2 is empty, intersection is empty
+        ;;  Get the first element of set-1
+        (T (LET ((first-elem (CAR set-1))
+                 (rest-inter (set-intersection (CDR set-1) set-2)))
+                ;; Check if the first element is in set-2
+                ;; Use set-member for recursion and abstractions.
+                (IF (set-member set-2 first-elem)
+                    ;; If first-elem is a member of set-2, add it to result
+                    (CONS first-elem rest-inter)
+                    ;; Else, just return the intersection of the rest
+                    rest-inter)))))
+
+;; Test cases
+(FORMAT T "Test Intersection 1: (set-intersection '(1 2 3) '(2 4)) => ~a~%" (set-intersection '(1 2 3) '(2 4)))
+(FORMAT T "Test Intersection 2: (set-intersection '(2 1 3) '(2 1 4)) => ~a~%" (set-intersection '(2 1 3) '(2 1 4)))
+(FORMAT T "Test Intersection 2: (set-intersection '(2 1 3) '(1 2 4)) => ~a~%" (set-intersection '(2 1 3) '(1 2 4)))
+(FORMAT T "Test Intersection 3: (set-intersection '(1 2) '(4)) => ~a~%" (set-intersection '(1 2) '(4)))
+(FORMAT T "Test Intersection 4: (set-intersection '(1 2) '(4 2)) => ~a~%" (set-intersection '(1 2) '(4 2)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Perform merge sort on the lists.
+;; Parameters:
+;;   list: The list to sort
+;;   predicate: A function to compare elements of the list
+;;
+;; Examples:
+;;     (merge-sort '(2 1 5 0) #'<) => '(0 1 2 5)
+;;     (merge-sort '(2 1 5 0) #'>) => '(5 2 1 0)
+
+(defun merge-sort (list predicate)
+
+;;<Your implementation go here >
 
 )
-
-(FORMAT T "~a~%" (set-intersection '(1 2 3) '(2 4)))
