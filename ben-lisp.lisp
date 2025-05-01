@@ -48,7 +48,6 @@
 (FORMAT T "Test Union 4: (set-union '(1 2 3) '()) => ~a~%" (set-union '(1 2 3) '()))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; Problem 3: Return the intersection of two sets
 ;; Return the intersection of set-1 and set-2.
 
