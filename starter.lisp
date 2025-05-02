@@ -12,9 +12,16 @@
 
 (defun set-member (set item)
 
-  ;;Your implementation go here
-
-  )
+  ;; Base case: empty set means item is not in set
+  (cond ((null set) nil)
+        ;; if exists return true
+        ;; car returns first element      
+        ((equal (car set) item) t)
+        ;; recursively go through set
+        ;; gets the rest of the list excluding the first element       
+        ((set-member (cdr set) item))
+   )
+ )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -28,11 +35,25 @@
 
 ;; (set-union '(1 2) '(2 4)) => '(1 2 4)
 
+;; Local variables;
+;; first-elem: the first element of set-1
+;; rest-union: the union of the rest of set-1, and set-2
+
 (defun set-union (set-1 set-2)
+  ;; Base cases need 2 this time!
+  ;; If set-1 is empty, return set-2 If set-2 is empty, return set-1 
+  (COND ((NULL set-1) set-2) 
+        ((NULL set-2) set-1) 
+        ;; add the first element of set-1 to the union of the rest of set-1, and set-2 recursive brain pain
+        ;; Only if it's not already in set-2
+        (T (LET ((first-elem (CAR set-1))
+                 (rest-union (set-union (CDR set-1) set-2)))
+             ;; If first element is already in set-2, just return the union of the rest
+             (IF (set-member set-2 first-elem)
+                 rest-union
+                 ;; Otherwise, add it to the result
+                 (CONS first-elem rest-union))))))
 
-  ;;Your implementation go here
-
-  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -48,7 +69,8 @@
 
 (defun set-intersection (set-1 set-2)
 
-  ;;Your implementation go here
+  ;;Base case goes here
+  ;;(myFun2 set-1 set-2)
 
   )
 
@@ -86,7 +108,12 @@
 
 (defun boolean-xor (a b)
 
-  ;;Your implementation go here
+  ;; Your implementation go here
+  ;; A     and Bnot
+  ;; Anot  and B
+  ;; ABnot or AnotB 
+
+  (OR (AND a (NOT b)) (AND (NOT a) b))
 
   )
 
@@ -105,7 +132,8 @@
 (defun boolean-implies (a b)
 
   ;;
-
+  (OR (NOT a) b)
+  
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -122,7 +150,9 @@
 
 (defun boolean-iff (a b)
 
-  ;;
+  ;; A implies B
+  ;; B implies A
+  (AND(boolean-implies a b) (boolean-implies b a))
 
   )
 
@@ -138,11 +168,12 @@
 
 ;; (boolean-eval '(and t nil)) => nil
 
-;; (boolean-eval '(and t (or nil t)) => t
+;;; (boolean-eval '(and t (or nil t)) => t
 
 (defun boolean-eval (exp)
 
   ;;
+  (car exp)
 
   )
 
@@ -169,3 +200,16 @@
   ;;
 
   )
+
+
+
+
+;; SOME TEST FUNCTION
+(defun myFun1 (num1 num2)
+  (+ num1 num2)
+  )
+
+(defun myFun2 (set1 set2)
+  (cons set1 set2)
+  )
+
