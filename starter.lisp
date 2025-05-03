@@ -172,10 +172,53 @@
 
 (defun boolean-eval (exp)
 
-  ;;
-  (car exp)
+  ;; Motivating idea;
+  ;;  CASE I  item is atom
+  ;;  CASE II item is list
+  ;; NOT AND OR XOR IMPLIES IFF
 
-  )
+  ;; dummy code;
+  ;; base case, item is atom -> return
+  ;; if item is list check contents (recursive)
+  ;;
+  (COND
+    ;; like switch, will execute on the first true instance or skip otherwise
+    ;;  check if (first) item is NIL
+    ;;  check if (first) item is T
+    ;;  check if (first) item is statement
+    ;;   NOT AND OR XOR IMPLIES IFF
+    
+    ;; BASE CASE IS ATOM NIL OR
+    ((EQUAL exp T) T)
+    ((EQUAL exp NIL) NIL)
+
+    ;; NOT
+    ((EQUAL (CAR exp) 'NOT)
+     (NOT (boolean-eval (SECOND exp))))
+
+    ;; AND
+    ((EQUAL (CAR exp) 'AND)
+     (AND (boolean-eval (SECOND exp))
+          (boolean-eval (THIRD exp))))
+    ;; OR
+
+    ((EQUAL (CAR exp) 'OR)
+     (OR (boolean-eval (SECOND exp))
+         (boolean-eval (THIRD exp))))
+    
+    ;; IMPLIES
+    
+    ((EQUAL (CAR exp) 'IMPLIES)
+     (boolean-implies (boolean-eval (SECOND exp))
+                      (boolean-eval (THIRD exp))))
+    
+    ;; IFF
+
+    ((EQUAL (CAR exp) 'IFF)
+     (boolean-iff (boolean-eval (SECOND exp))
+                  (boolean-eval (THIRD exp))))
+    
+    ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -195,11 +238,39 @@
 
 ;; (merge-sort '(2 1 5 0) #'>) => '(5 2 1 0)
 
-(defun merge-sort (list predicate)
+;;Motivating items
+;; BASE CASE
+;; Recursion
 
-  ;;
+;; another thing to consider is when we call merge sort but the list is an odd
+;; number and can not be split evenly (?)
 
-  )
+;; We will need a merge helper function
+
+;; CASE I item is an atom and contains only one item
+;; CASE II item is a list, call merge sort again
+
+;; Pseudo-code
+
+;; splitting the list
+;; calculate the midpoint of the list
+;; left half to midpoint
+;; midpoint inclusive to rest of the list
+
+;; merge the two sorted lists
+;; compare first elements of both lists
+;; add the smallest element 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
