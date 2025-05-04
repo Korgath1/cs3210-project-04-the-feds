@@ -261,9 +261,32 @@
 ;; compare first elements of both lists
 ;; add the smallest element 
 
+(defun merge-sort (list predicate))
 
 
 
+;; RIGHT NOW THIS ONLY TAKES TWO SORTED SUB-LISTS AND SORTS THEM UP TO THE NEXT LEVEL
+;; EX. (merge-up '(1 3 5) '(2 4 6) #'<)
+;; EX. (merge-up '(9 6 3) '(8 5 2) #'>)
+
+;; notes for tomorrow, split functionality
+
+(defun merge-up (left right predicate)
+  (COND
+
+    ;; IF the left is empty, return the right list
+    ;; IF the right is empty, return the left list
+    
+    ((NULL left) right)
+    ((NULL right) left)
+
+    ;; Here we use funcall to pass in the comparison
+    
+    
+    ((FUNCALL predicate (CAR left) (CAR right))
+     (CONS (CAR left) (merge-up (CDR left) right predicate)))
+    (T
+     (CONS (CAR right) (merge-up left (CDR right) predicate)))))
 
 
 
