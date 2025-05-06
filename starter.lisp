@@ -23,11 +23,18 @@
    )
   )
 
-;; Test cases
-(FORMAT T "Test 1: (set-member '(1 2) 1) => ~a~%" (set-member '(1 2) 1))
-(FORMAT T "Test 2: (set-member '(1 2) 3) => ~a~%" (set-member '(1 2) 3))
-(FORMAT T "Test 3: (set-member '(a b c) 'b) => ~a~%" (set-member '(a b c) '))
-(FORMAT T "Test 4: (set-member '() 5) => ~a~%" (set-member '() 5))
+;; Set Member Tests
+(FORMAT T "~%~%~60,,,'-A~%" "-")
+(FORMAT T "~15A~A~%" "" "SET MEMBER TESTS")
+(FORMAT T "~60,,,'-A~%~%" "-")
+
+(FORMAT T "~2A~A~%" "" "MEMBERSHIP TESTS:")
+(FORMAT T "~4ATest 1: (set-member '(1 2) 1) => ~a~%" "" (set-member '(1 2) 1))
+(FORMAT T "~4ATest 2: (set-member '(1 2) 3) => ~a~%" "" (set-member '(1 2) 3))
+(FORMAT T "~4ATest 3: (set-member '(a b c) 'b) => ~a~%" "" (set-member '(a b c) 'b))
+(FORMAT T "~4ATest 4: (set-member '() 5) => ~a~%" "" (set-member '() 5))
+
+(FORMAT T "~%~60,,,'-A~%~%" "-")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -60,11 +67,18 @@
                  ;; Otherwise, add it to the result
                  (CONS first-elem rest-union))))))
 
-;; Test cases
-(FORMAT T "Test Union 1: (set-union '(1 2) '(2 4)) => ~a~%" (set-union '(1 2) '(2 4)))
-(FORMAT T "Test Union 2: (set-union '() '(3 4)) => ~a~%" (set-union '() '(3 4)))
-(FORMAT T "Test Union 3: (set-union '(a b) '(c d)) => ~a~%" (set-union '(a b) '(c d)))
-(FORMAT T "Test Union 4: (set-union '(1 2 3) '()) => ~a~%" (set-union '(1 2 3) '()))
+;; Set Union Tests
+(FORMAT T "~%~%~60,,,'-A~%" "-")
+(FORMAT T "~15A~A~%" "" "SET UNION TESTS")
+(FORMAT T "~60,,,'-A~%~%" "-")
+
+(FORMAT T "~2A~A~%" "" "UNION OPERATIONS:")
+(FORMAT T "~4ATest 1: (set-union '(1 2) '(2 4)) => ~a~%" "" (set-union '(1 2) '(2 4)))
+(FORMAT T "~4ATest 2: (set-union '() '(3 4)) => ~a~%" "" (set-union '() '(3 4)))
+(FORMAT T "~4ATest 3: (set-union '(a b) '(c d)) => ~a~%" "" (set-union '(a b) '(c d)))
+(FORMAT T "~4ATest 4: (set-union '(1 2 3) '()) => ~a~%" "" (set-union '(1 2 3) '()))
+
+(FORMAT T "~%~60,,,'-A~%~%" "-")
 
 
 
@@ -96,11 +110,19 @@
                  ;; Else, just return the intersection of the rest
                  rest-inter)))))
 
-(FORMAT T "Test Intersection 1: (set-intersection '(1 2 3) '(2 4)) => ~a~%" (set-intersection '(1 2 3) '(2 4)))
-(FORMAT T "Test Intersection 2: (set-intersection '(2 1 3) '(2 1 4)) => ~a~%" (set-intersection '(2 1 3) '(2 1 4)))
-(FORMAT T "Test Intersection 2: (set-intersection '(2 1 3) '(1 2 4)) => ~a~%" (set-intersection '(2 1 3) '(1 2 4)))
-(FORMAT T "Test Intersection 3: (set-intersection '(1 2) '(4)) => ~a~%" (set-intersection '(1 2) '(4)))
-(FORMAT T "Test Intersection 4: (set-intersection '(1 2) '(4 2)) => ~a~%" (set-intersection '(1 2) '(4 2)))
+;; Set Intersection Tests
+(FORMAT T "~%~%~60,,,'-A~%" "-")
+(FORMAT T "~15A~A~%" "" "SET INTERSECTION TESTS")
+(FORMAT T "~60,,,'-A~%~%" "-")
+
+(FORMAT T "~2A~A~%" "" "INTERSECTION OPERATIONS:")
+(FORMAT T "~4ATest 1: (set-intersection '(1 2 3) '(2 4)) => ~a~%" "" (set-intersection '(1 2 3) '(2 4)))
+(FORMAT T "~4ATest 2: (set-intersection '(2 1 3) '(2 1 4)) => ~a~%" "" (set-intersection '(2 1 3) '(2 1 4)))
+(FORMAT T "~4ATest 3: (set-intersection '(2 1 3) '(1 2 4)) => ~a~%" "" (set-intersection '(2 1 3) '(1 2 4)))
+(FORMAT T "~4ATest 4: (set-intersection '(1 2) '(4)) => ~a~%" "" (set-intersection '(1 2) '(4)))
+(FORMAT T "~4ATest 5: (set-intersection '(1 2) '(4 2)) => ~a~%" "" (set-intersection '(1 2) '(4 2)))
+
+(FORMAT T "~%~60,,,'-A~%~%" "-")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -144,13 +166,20 @@
             (set-diff (CDR set-1) set-2)  ;; Skip this element if we DON"T find it
             (CONS first-elem (set-diff (CDR set-1) set-2))))))  ;; Otherwise we would like to keep it, it would be so epic
 
-;; Test cases
-(FORMAT T "Test Diff 1: (set-diff '(1 2 3) '(2 4)) => ~a~%" (set-diff '(1 2 3) '(2 4)))
-(FORMAT T "Test Diff 2: (set-diff '(a b c) '(b d)) => ~a~%" (set-diff '(a b c) '(b d)))
-(FORMAT T "Test Diff 3: (set-diff '(1 2 3) '(1 2 3)) => ~a~%" (set-diff '(1 2 3) '(1 2 3)))
-(FORMAT T "Test Diff 4: (set-diff '(x y z) '()) => ~a~%" (set-diff '(x y z) '()))
-(FORMAT T "Test Diff 5: (set-diff '() '(1 2 3)) => ~a~%" (set-diff '() '(1 2 3)))
-(FORMAT T "Test Diff 6: (set-diff '(1 2 2 3) '(2)) => ~a~%" (set-diff '(1 2 2 3) '(2)))
+;; Set Difference Tests
+(FORMAT T "~%~%~60,,,'-A~%" "-")
+(FORMAT T "~15A~A~%" "" "SET DIFFERENCE TESTS")
+(FORMAT T "~60,,,'-A~%~%" "-")
+
+(FORMAT T "~2A~A~%" "" "DIFFERENCE OPERATIONS:")
+(FORMAT T "~4ATest 1: (set-diff '(1 2 3) '(2 4)) => ~a~%" "" (set-diff '(1 2 3) '(2 4)))
+(FORMAT T "~4ATest 2: (set-diff '(a b c) '(b d)) => ~a~%" "" (set-diff '(a b c) '(b d)))
+(FORMAT T "~4ATest 3: (set-diff '(1 2 3) '(1 2 3)) => ~a~%" "" (set-diff '(1 2 3) '(1 2 3)))
+(FORMAT T "~4ATest 4: (set-diff '(x y z) '()) => ~a~%" "" (set-diff '(x y z) '()))
+(FORMAT T "~4ATest 5: (set-diff '() '(1 2 3)) => ~a~%" "" (set-diff '() '(1 2 3)))
+(FORMAT T "~4ATest 6: (set-diff '(1 2 2 3) '(2)) => ~a~%" "" (set-diff '(1 2 2 3) '(2)))
+
+(FORMAT T "~%~60,,,'-A~%~%" "-")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -278,27 +307,47 @@
     
     ))
 
+;; Boolean Expression Evaluator Tests
+(FORMAT T "~%~%~60,,,'-A~%" "-")
+(FORMAT T "~15A~A~%" "" "BOOLEAN EXPRESSION EVALUATOR TESTS")
+(FORMAT T "~60,,,'-A~%~%" "-")
+
 ;; Base cases
-(FORMAT T "Test 1: (boolean-eval T) => ~a~%" (boolean-eval T))
-(FORMAT T "Test 2: (boolean-eval NIL) => ~a~%" (boolean-eval NIL))
+(FORMAT T "~2A~A~%" "" "BASE CASES:")
+(FORMAT T "~4ATest 1: (boolean-eval T) => ~a~%" "" (boolean-eval T))
+(FORMAT T "~4ATest 2: (boolean-eval NIL) => ~a~%~%" "" (boolean-eval NIL))
+
 ;; NOT
-(FORMAT T "Test 3: (boolean-eval '(NOT T)) => ~a~%" (boolean-eval '(NOT T)))
-(FORMAT T "Test 4: (boolean-eval '(NOT NIL)) => ~a~%" (boolean-eval '(NOT NIL)))
+(FORMAT T "~2A~A~%" "" "NOT OPERATOR:")
+(FORMAT T "~4ATest 3: (boolean-eval '(NOT T)) => ~a~%" "" (boolean-eval '(NOT T)))
+(FORMAT T "~4ATest 4: (boolean-eval '(NOT NIL)) => ~a~%~%" "" (boolean-eval '(NOT NIL)))
+
 ;; AND
-(FORMAT T "Test 5: (boolean-eval '(AND T T)) => ~a~%" (boolean-eval '(AND T T)))
-(FORMAT T "Test 6: (boolean-eval '(AND T NIL)) => ~a~%" (boolean-eval '(AND T NIL)))
+(FORMAT T "~2A~A~%" "" "AND OPERATOR:")
+(FORMAT T "~4ATest 5: (boolean-eval '(AND T T)) => ~a~%" "" (boolean-eval '(AND T T)))
+(FORMAT T "~4ATest 6: (boolean-eval '(AND T NIL)) => ~a~%~%" "" (boolean-eval '(AND T NIL)))
+
 ;; OR
-(FORMAT T "Test 7: (boolean-eval '(OR T NIL)) => ~a~%" (boolean-eval '(OR T NIL)))
-(FORMAT T "Test 8: (boolean-eval '(OR NIL NIL)) => ~a~%" (boolean-eval '(OR NIL NIL)))
+(FORMAT T "~2A~A~%" "" "OR OPERATOR:")
+(FORMAT T "~4ATest 7: (boolean-eval '(OR T NIL)) => ~a~%" "" (boolean-eval '(OR T NIL)))
+(FORMAT T "~4ATest 8: (boolean-eval '(OR NIL NIL)) => ~a~%~%" "" (boolean-eval '(OR NIL NIL)))
+
 ;; IMPLIES
-(FORMAT T "Test 9: (boolean-eval '(IMPLIES T NIL)) => ~a~%" (boolean-eval '(IMPLIES T NIL)))
-(FORMAT T "Test 10: (boolean-eval '(IMPLIES NIL T)) => ~a~%" (boolean-eval '(IMPLIES NIL T)))
+(FORMAT T "~2A~A~%" "" "IMPLIES OPERATOR:")
+(FORMAT T "~4ATest 9: (boolean-eval '(IMPLIES T NIL)) => ~a~%" "" (boolean-eval '(IMPLIES T NIL)))
+(FORMAT T "~4ATest 10: (boolean-eval '(IMPLIES NIL T)) => ~a~%~%" "" (boolean-eval '(IMPLIES NIL T)))
+
 ;; IFF
-(FORMAT T "Test 11: (boolean-eval '(IFF T T)) => ~a~%" (boolean-eval '(IFF T T)))
-(FORMAT T "Test 12: (boolean-eval '(IFF T NIL)) => ~a~%" (boolean-eval '(IFF T NIL)))
+(FORMAT T "~2A~A~%" "" "IFF OPERATOR:")
+(FORMAT T "~4ATest 11: (boolean-eval '(IFF T T)) => ~a~%" "" (boolean-eval '(IFF T T)))
+(FORMAT T "~4ATest 12: (boolean-eval '(IFF T NIL)) => ~a~%~%" "" (boolean-eval '(IFF T NIL)))
+
 ;; Nested
-(FORMAT T "Test 13: (boolean-eval '(AND (OR T NIL) (AND T T))) => ~a~%" (boolean-eval '(AND (OR T NIL) (AND T T))))
-(FORMAT T "Test 14: (boolean-eval '(IFF (OR T NIL) (AND T T))) => ~a~%" (boolean-eval '(IFF (OR T NIL) (AND T T))))
+(FORMAT T "~2A~A~%" "" "NESTED EXPRESSIONS:")
+(FORMAT T "~4ATest 13: (boolean-eval '(AND (OR T NIL) (AND T T))) => ~a~%" "" (boolean-eval '(AND (OR T NIL) (AND T T))))
+(FORMAT T "~4ATest 14: (boolean-eval '(IFF (OR T NIL) (AND T T))) => ~a~%" "" (boolean-eval '(IFF (OR T NIL) (AND T T))))
+
+(FORMAT T "~%~60,,,'-A~%~%" "-")
 
 
 
@@ -443,13 +492,23 @@
 
 
 
-(FORMAT T "Test 1: (merge-sort '(2 1 5 0) #'<) => ~a~%" (merge-sort '(2 1 5 0) #'<))
-(FORMAT T "Test 2: (merge-sort '(2 1 5 0) #'>) => ~a~%" (merge-sort '(2 1 5 0) #'>))
-(FORMAT T "Test 3: (merge-sort '() #'<) => ~a~%" (merge-sort '() #'<))
-(FORMAT T "Test 4: (merge-sort '(7) #'<) => ~a~%" (merge-sort '(7) #'<))
-(FORMAT T "Test 5: (merge-sort '(4 4 4 4) #'<) => ~a~%" (merge-sort '(4 4 4 4) #'<))
-(FORMAT T "Test 6: (merge-sort '(3 1 4 1 5 9 2) #'<) => ~a~%" (merge-sort '(3 1 4 1 5 9 2) #'<))
-(FORMAT T "Test 7: (merge-sort '(3 1 4 1 5 9 2) #'>) => ~a~%" (merge-sort '(3 1 4 1 5 9 2) #'>))
+;; Merge Sort Tests
+(FORMAT T "~%~%~60,,,'-A~%" "-")
+(FORMAT T "~15A~A~%" "" "MERGE SORT TESTS")
+(FORMAT T "~60,,,'-A~%~%" "-")
+
+(FORMAT T "~2A~A~%" "" "ASCENDING ORDER SORTS:")
+(FORMAT T "~4ATest 1: (merge-sort '(2 1 5 0) #'<) => ~a~%" "" (merge-sort '(2 1 5 0) #'<))
+(FORMAT T "~4ATest 3: (merge-sort '() #'<) => ~a~%" "" (merge-sort '() #'<))
+(FORMAT T "~4ATest 4: (merge-sort '(7) #'<) => ~a~%" "" (merge-sort '(7) #'<))
+(FORMAT T "~4ATest 5: (merge-sort '(4 4 4 4) #'<) => ~a~%" "" (merge-sort '(4 4 4 4) #'<))
+(FORMAT T "~4ATest 6: (merge-sort '(3 1 4 1 5 9 2) #'<) => ~a~%~%" "" (merge-sort '(3 1 4 1 5 9 2) #'<))
+
+(FORMAT T "~2A~A~%" "" "DESCENDING ORDER SORTS:")
+(FORMAT T "~4ATest 2: (merge-sort '(2 1 5 0) #'>) => ~a~%" "" (merge-sort '(2 1 5 0) #'>))
+(FORMAT T "~4ATest 7: (merge-sort '(3 1 4 1 5 9 2) #'>) => ~a~%" "" (merge-sort '(3 1 4 1 5 9 2) #'>))
+
+(FORMAT T "~%~60,,,'-A~%~%" "-")
 
 
 
