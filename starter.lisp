@@ -21,7 +21,13 @@
         ;; gets the rest of the list excluding the first element       
         ((set-member (cdr set) item))
    )
- )
+  )
+
+;; Test cases
+(FORMAT T "Test 1: (set-member '(1 2) 1) => ~a~%" (set-member '(1 2) 1))
+(FORMAT T "Test 2: (set-member '(1 2) 3) => ~a~%" (set-member '(1 2) 3))
+(FORMAT T "Test 3: (set-member '(a b c) 'b) => ~a~%" (set-member '(a b c) '))
+(FORMAT T "Test 4: (set-member '() 5) => ~a~%" (set-member '() 5))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -54,6 +60,13 @@
                  ;; Otherwise, add it to the result
                  (CONS first-elem rest-union))))))
 
+;; Test cases
+(FORMAT T "Test Union 1: (set-union '(1 2) '(2 4)) => ~a~%" (set-union '(1 2) '(2 4)))
+(FORMAT T "Test Union 2: (set-union '() '(3 4)) => ~a~%" (set-union '() '(3 4)))
+(FORMAT T "Test Union 3: (set-union '(a b) '(c d)) => ~a~%" (set-union '(a b) '(c d)))
+(FORMAT T "Test Union 4: (set-union '(1 2 3) '()) => ~a~%" (set-union '(1 2 3) '()))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -69,10 +82,25 @@
 
 (defun set-intersection (set-1 set-2)
 
-  ;;Base case goes here
-  ;;(myFun2 set-1 set-2)
+  ;;  base case check for empty set
+  (COND ((NULL set-1) NIL) ;; If set-1 is empty, intersection is empty
+        ((NULL set-2) NIL) ;; If set-2 is empty, intersection is empty
+        ;;  Get the first element of set-1
+        (T (LET ((first-elem (CAR set-1))
+                 (rest-inter (set-intersection (CDR set-1) set-2)))
+             ;; Check if the first element is in set-2
+             ;; Use set-member for recursion and abstractions.
+             (IF (set-member set-2 first-elem)
+                 ;; If first-elem is a member of set-2, add it to result
+                 (CONS first-elem rest-inter)
+                 ;; Else, just return the intersection of the rest
+                 rest-inter)))))
 
-  )
+(FORMAT T "Test Intersection 1: (set-intersection '(1 2 3) '(2 4)) => ~a~%" (set-intersection '(1 2 3) '(2 4)))
+(FORMAT T "Test Intersection 2: (set-intersection '(2 1 3) '(2 1 4)) => ~a~%" (set-intersection '(2 1 3) '(2 1 4)))
+(FORMAT T "Test Intersection 2: (set-intersection '(2 1 3) '(1 2 4)) => ~a~%" (set-intersection '(2 1 3) '(1 2 4)))
+(FORMAT T "Test Intersection 3: (set-intersection '(1 2) '(4)) => ~a~%" (set-intersection '(1 2) '(4)))
+(FORMAT T "Test Intersection 4: (set-intersection '(1 2) '(4 2)) => ~a~%" (set-intersection '(1 2) '(4 2)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -88,11 +116,41 @@
 
 ;; (set-diff '(1 2) '(2 4)) => '(1)
 
+  ;; GOAL
+  ;; We want to return a list that contains the difference betweens sets one and two, that is that we want to
+  ;; look at the first element of a list and compare it with every other element of the second list. If there
+  ;; is no match we want to include the item in the output
+
+  ;; BASE CASE
+  ;; the base base is if set-one is empty
+
 (defun set-diff (set-1 set-2)
 
-  ;;Your implementation go here
+  ;; HERE IS THE BASE CASE, that is that set-1 is empty. We want to return an empty list
+  
+  (IF (NULL set-1)
+      
+      NIL
 
-  )
+      ;; Get the first element of set-1
+      
+      (LET ((first-elem (CAR set-1)))
+
+        ;; We use set-member, a function we built earlier to detect if an element matches
+        ;; IF the element matches we don't include it and therefore go to the next step
+        ;; which is recursively calling the set-difference function
+        
+        (IF (set-member set-2 first-elem)
+            (set-diff (CDR set-1) set-2)  ;; Skip this element if we DON"T find it
+            (CONS first-elem (set-diff (CDR set-1) set-2))))))  ;; Otherwise we would like to keep it, it would be so epic
+
+;; Test cases
+(FORMAT T "Test Diff 1: (set-diff '(1 2 3) '(2 4)) => ~a~%" (set-diff '(1 2 3) '(2 4)))
+(FORMAT T "Test Diff 2: (set-diff '(a b c) '(b d)) => ~a~%" (set-diff '(a b c) '(b d)))
+(FORMAT T "Test Diff 3: (set-diff '(1 2 3) '(1 2 3)) => ~a~%" (set-diff '(1 2 3) '(1 2 3)))
+(FORMAT T "Test Diff 4: (set-diff '(x y z) '()) => ~a~%" (set-diff '(x y z) '()))
+(FORMAT T "Test Diff 5: (set-diff '() '(1 2 3)) => ~a~%" (set-diff '() '(1 2 3)))
+(FORMAT T "Test Diff 6: (set-diff '(1 2 2 3) '(2)) => ~a~%" (set-diff '(1 2 2 3) '(2)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -219,6 +277,30 @@
                   (boolean-eval (THIRD exp))))
     
     ))
+
+;; Base cases
+(FORMAT T "Test 1: (boolean-eval T) => ~a~%" (boolean-eval T))
+(FORMAT T "Test 2: (boolean-eval NIL) => ~a~%" (boolean-eval NIL))
+;; NOT
+(FORMAT T "Test 3: (boolean-eval '(NOT T)) => ~a~%" (boolean-eval '(NOT T)))
+(FORMAT T "Test 4: (boolean-eval '(NOT NIL)) => ~a~%" (boolean-eval '(NOT NIL)))
+;; AND
+(FORMAT T "Test 5: (boolean-eval '(AND T T)) => ~a~%" (boolean-eval '(AND T T)))
+(FORMAT T "Test 6: (boolean-eval '(AND T NIL)) => ~a~%" (boolean-eval '(AND T NIL)))
+;; OR
+(FORMAT T "Test 7: (boolean-eval '(OR T NIL)) => ~a~%" (boolean-eval '(OR T NIL)))
+(FORMAT T "Test 8: (boolean-eval '(OR NIL NIL)) => ~a~%" (boolean-eval '(OR NIL NIL)))
+;; IMPLIES
+(FORMAT T "Test 9: (boolean-eval '(IMPLIES T NIL)) => ~a~%" (boolean-eval '(IMPLIES T NIL)))
+(FORMAT T "Test 10: (boolean-eval '(IMPLIES NIL T)) => ~a~%" (boolean-eval '(IMPLIES NIL T)))
+;; IFF
+(FORMAT T "Test 11: (boolean-eval '(IFF T T)) => ~a~%" (boolean-eval '(IFF T T)))
+(FORMAT T "Test 12: (boolean-eval '(IFF T NIL)) => ~a~%" (boolean-eval '(IFF T NIL)))
+;; Nested
+(FORMAT T "Test 13: (boolean-eval '(AND (OR T NIL) (AND T T))) => ~a~%" (boolean-eval '(AND (OR T NIL) (AND T T))))
+(FORMAT T "Test 14: (boolean-eval '(IFF (OR T NIL) (AND T T))) => ~a~%" (boolean-eval '(IFF (OR T NIL) (AND T T))))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -361,6 +443,13 @@
 
 
 
+(FORMAT T "Test 1: (merge-sort '(2 1 5 0) #'<) => ~a~%" (merge-sort '(2 1 5 0) #'<))
+(FORMAT T "Test 2: (merge-sort '(2 1 5 0) #'>) => ~a~%" (merge-sort '(2 1 5 0) #'>))
+(FORMAT T "Test 3: (merge-sort '() #'<) => ~a~%" (merge-sort '() #'<))
+(FORMAT T "Test 4: (merge-sort '(7) #'<) => ~a~%" (merge-sort '(7) #'<))
+(FORMAT T "Test 5: (merge-sort '(4 4 4 4) #'<) => ~a~%" (merge-sort '(4 4 4 4) #'<))
+(FORMAT T "Test 6: (merge-sort '(3 1 4 1 5 9 2) #'<) => ~a~%" (merge-sort '(3 1 4 1 5 9 2) #'<))
+(FORMAT T "Test 7: (merge-sort '(3 1 4 1 5 9 2) #'>) => ~a~%" (merge-sort '(3 1 4 1 5 9 2) #'>))
 
 
 
