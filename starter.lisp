@@ -253,17 +253,43 @@
 ;; Pseudo-code
 
 ;; splitting the list
-;; calculate the midpoint of the list
-;; left half to midpoint
-;; midpoint inclusive to rest of the list
+;; we have two pointers, one twice as fast as the other
+;; we collect elements in one list while cutting off the "fast" list from the beginning
 
 ;; merge the two sorted lists
 ;; compare first elements of both lists
 ;; add the smallest element 
 
-(defun merge-sort (list predicate))
+(defun merge-sort (list predicate)
+
+  ;; BASE CASE
+  ;; the if is part of the base case that checks either if the list is empty or that it only has one element.
+  ;;
+  
+  (IF (OR (NULL list) (NULL (CDR list)))
+      list
+
+      ;; First we have to split the list using a helper function
+      ;; we use LET* since up and down depends on parts otherwise the function blows up and it is very sad
+      
+      (LET* ((PART (split-list list))
+             (up (FIRST part))
+             (down (SECOND part)))
+        
+        ;; This is where the rubber meets the road. merge-up is a helper function that sorts atoms and lists
+        ;; back "up"
+        ;; we also pass in the predicate so that the lists are sorted in the correct order.
+
+        
+        (merge-up (merge-sort up predicate)
+                  (merge-sort down predicate)
+                  predicate))))
 
 
+
+
+;; Here is the first helper function that takes two ordered lists and combines them into one
+;; ordered list
 
 ;; RIGHT NOW THIS ONLY TAKES TWO SORTED SUB-LISTS AND SORTS THEM UP TO THE NEXT LEVEL
 ;; EX. (merge-up '(1 3 5) '(2 4 6) #'<)
@@ -276,12 +302,13 @@
 
     ;; IF the left is empty, return the right list
     ;; IF the right is empty, return the left list
+    ;; This is the base case
     
     ((NULL left) right)
     ((NULL right) left)
 
     ;; Here we use funcall to pass in the comparison
-    
+    ;; we recursively call merge-up to place the atoms correctly in the big list
     
     ((FUNCALL predicate (CAR left) (CAR right))
      (CONS (CAR left) (merge-up (CDR left) right predicate)))
@@ -290,6 +317,46 @@
 
 
 
+;; Now we need something to split a given list into two lists from some middle point in the list
+;; an important consideration is how we might split lists with an odd parity for the length
+;; An example is that 5 would split 2 and 3 or 7 would be 4 and 3.
+
+;; Here we will have what are essentially two pointers, we have two lists where one pointer
+;; goes through the list twice as fast.
+
+(defun split-list (list)
+  ;; this function will return two lists
+  ;; left  will  collect the first half of the list but in reverse order
+  ;; right moves slowly through the list one step at a time
+  ;; fast  moves fast through the list two steps at a time, twice the speed of right
+  
+  (LABELS ((split-helper (left right fast)
+
+             ;; recursion stops if either fast is NIL (the end of the list, OR
+             ;; (CDR fast) is NILL, meaning only one element is left
+             ;; This is the base case
+             
+             (IF (OR (NULL fast) (NULL (CDR fast)))
+
+                 ;; IF the base case is true we want to return the reverse of the left and also return
+                 ;; the right list
+                 
+                 (LIST (REVERSE left) right)
+
+                 ;; OTHERWISE
+                 ;; move right forward by one
+                 ;; move fast forward by two
+                 ;; CONS takes an element from the right list and adds it to the left, we have to remember
+                 ;; that left is going to be constructed in reverse order
+                 ;; NEXT CDR right is going to go 1 step through the list
+                 ;; CDR (CDR fast) is going to go through two steps through the list. This is how
+                 ;; we will detect when we are at the end of the list
+                 
+                 (split-helper (CONS (CAR right) left)
+                               (CDR right)
+                               (CDR (CDR fast))))))
+    
+    (split-helper '()  list list)))
 
 
 
